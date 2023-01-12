@@ -36,6 +36,8 @@ public class LivroControllerTest extends IntegrationTest {
 	
 	@Autowired
 	private LivroRepository livroRepository;
+	
+	private int codigo = 0;
 
 	@Test
 	@SneakyThrows
@@ -139,10 +141,12 @@ public class LivroControllerTest extends IntegrationTest {
 		
 	}
 	
+	
 	@Test
 	@SneakyThrows
 	void shouldFindAllLivros() {
 		List<String> titulos = new ArrayList<>();
+		
 		
 		titulos.add("Matemática 4");
 		titulos.add("Lógica 5");
@@ -153,6 +157,11 @@ public class LivroControllerTest extends IntegrationTest {
 		
 		titulos.forEach(titulo ->{
 			Livro livro = new Livro();
+			codigo = codigo + 1;
+			livro.setCodigoLivro(titulo + "-cod-" + codigo);
+			livro.setAutor("Autor do livro "+titulo);
+			livro.setGenero("genero do livro "+titulo);
+			livro.setIsbn("2222222"+titulo); 
 			livro.setTitulo(titulo);
 			livro.setEditora(titulo+" editora");
 			livroRepository.save(livro);
@@ -169,6 +178,7 @@ public class LivroControllerTest extends IntegrationTest {
 		});
 		
 		assertEquals(6, livros.size());
+		assertEquals("História-cod-3",livros.get(2).getCodigoLivro());
 		assertEquals("História",livros.get(2).getTitulo());
 	    assertEquals("História editora",livros.get(2).getEditora());
 		
@@ -232,11 +242,16 @@ public class LivroControllerTest extends IntegrationTest {
 		 titulos.add("titulo4");
 		 titulos.add("titulo5");
 		 titulos.add("titulo6");
+		 codigo = 0;
 		 
 		 
 		 
 		 titulos.forEach(titulo -> {
 			 Livro livro = new Livro();
+			 codigo = codigo + 1;
+			 livro.setCodigoLivro(titulo + "-cod-" + codigo);
+			 livro.setGenero("genero do livro "+titulo);
+			 livro.setIsbn("2222222"+titulo); 
 			 livro.setAutor("autor do livro "+titulo);
 			 livro.setEditora("editora do livro "+titulo);
 			 livro.setTitulo(titulo);
@@ -261,6 +276,9 @@ public class LivroControllerTest extends IntegrationTest {
            .extracting(Livro::getTitulo)
            .containsExactlyInAnyOrder("titulo1", "titulo2","titulo3");
 
+		 assertThat(pageLivro.getContent()).hasSize(3)
+         .extracting(Livro::getCodigoLivro)
+         .containsExactlyInAnyOrder("titulo1-cod-1", "titulo2-cod-2","titulo3-cod-3");
 
 
 		
