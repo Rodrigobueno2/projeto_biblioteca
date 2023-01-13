@@ -1,6 +1,6 @@
 package com.biblioteca.biblioteca.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.hibernate.validator.constraints.br.CPF;
@@ -42,13 +42,13 @@ public class UsuarioDaBiblioteca extends BaseEntity{
 	@Past(message = "A data de nascimento deve estar no passado")
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "data_de_nascimento")
-	private Date dataDeNascimento;
+	private LocalDate dataDeNascimento;
 	
 	@NotEmpty(message = "A matricula não pode ser vazio")
 	@NotNull(message = "A matricula não pode ser nulo")
 	private String matricula;
 	
-	@NotEmpty(message = "O endereço residencial não pode ser vazio")
+	
 	@NotNull(message = "O endereço residencial não pode ser nulo")
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "endereco_residencial_id")
