@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        
+    <changeSet id="20230114-1212" author="rodrigo.bueno">
+       <preConditions  onFail="MARK_RAN">
+            <not>
+              <tableExists tableName="livro"/>
+            </not>
+        </preConditions>
+       <createTable tableName="livro">
+          <column name="id" type="numeric(10,0)">
+              <constraints nullable="false" primaryKey="true" primaryKeyName="pk_livro"/>
+          </column>
+          <column name="codigo_livro" type="varchar(50)">
+              <constraints nullable="false" unique="true" uniqueConstraintName="constraint_codigo_livro"/>
+          </column>
+          <column name="titulo" type="varchar(100)">
+              <constraints nullable="false"/>
+          </column>
+          <column name="autor" type="varchar(100)">
+              <constraints nullable="false"/>
+          </column>
+          <column name="editora" type="varchar(100)">
+              <constraints nullable="false"/>
+          </column>
+          <column name="genero" type="varchar(100)">
+              <constraints nullable="false"/>
+          </column>
+          <column name="isbn" type="varchar(100)">
+              <constraints nullable="false"/>
+          </column>
+       </createTable>
+       <addAutoIncrement
+          columnDataType="numeric(10,0)"
+          columnName="id"
+          tableName="livro"/>
+    </changeSet>
+	
+</databaseChangeLog>
