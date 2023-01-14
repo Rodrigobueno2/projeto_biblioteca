@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        
+    <changeSet id="20230114-1538" author="rodrigo.bueno">
+       <preConditions  onFail="MARK_RAN">
+            <not>
+              <tableExists tableName="usuario_biblioteca"/>
+            </not>
+        </preConditions>
+       <createTable tableName="usuario_biblioteca">
+          <column name="id" type="numeric(10,0)">
+              <constraints nullable="false" primaryKey="true" primaryKeyName="pk_usuario_biblioteca"/>
+          </column>
+          <column name="nome" type="varchar(100)">
+              <constraints nullable="false"/>
+          </column>
+          <column name="cpf" type="varchar(15)">
+              <constraints nullable="false" unique="true" uniqueConstraintName="constraint_cpf"/>
+          </column>
+          <column name="data_de_nascimento" type="timestamp">
+              <constraints nullable="false"/>
+          </column>
+          <column name="matricula" type="varchar(50)">
+              <constraints nullable="false" unique="true" uniqueConstraintName="constraint_matricula"/>
+          </column>
+          <column name="endereco_residencial_id" type="numeric(10,0)">
+              <constraints nullable="false"/>
+          </column>
+       </createTable>
+       <addAutoIncrement
+          columnDataType="numeric(10,0)"
+          columnName="id"
+          tableName="usuario_biblioteca"/>
+       <addForeignKeyConstraint  
+       	  baseColumnNames="endereco_residencial_id"
+		  baseTableName="usuario_biblioteca"
+		  constraintName="fk_endereco_residencial"
+	      referencedColumnNames="id"
+	      referencedTableName="endereco"
+	   />  
+    </changeSet>
+	
+</databaseChangeLog>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        
+    <changeSet id="20230114-1612" author="rodrigo.bueno">
+       <preConditions  onFail="MARK_RAN">
+            <not>
+              <tableExists tableName="usuario_biblioteca_contato"/>
+            </not>
+        </preConditions>
+       <createTable tableName="usuario_biblioteca_contato">
+          <column name="id" type="numeric(10,0)">
+              <constraints nullable="false" primaryKey="true" primaryKeyName="pk_usuario_biblioteca_contato"/>
+          </column>
+          <column name="usuario_da_biblioteca_id" type="numeric(10,0)">
+              <constraints nullable="false"/>
+          </column>
+          <column name="contato_id" type="numeric(10,0)">
+              <constraints nullable="false"/>
+          </column>
+       </createTable>
+       <addAutoIncrement
+          columnDataType="numeric(10,0)"
+          columnName="id"
+          tableName="usuario_biblioteca_contato"/>
+       <addForeignKeyConstraint  
+       	  baseColumnNames="usuario_da_biblioteca_id"
+		  baseTableName="usuario_biblioteca_contato"
+		  constraintName="fk_usuario_da_biblioteca"
+	      referencedColumnNames="id"
+	      referencedTableName="usuario_biblioteca"
+	   />  
+	   <addForeignKeyConstraint  
+       	  baseColumnNames="contato_id"
+		  baseTableName="usuario_biblioteca_contato"
+		  constraintName="fk_contato"
+	      referencedColumnNames="id"
+	      referencedTableName="contato"
+	   />  
+    </changeSet>
+	
+</databaseChangeLog>
